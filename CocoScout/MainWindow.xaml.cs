@@ -1,27 +1,25 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CocoScout
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
+#if DEBUG
+            Data.Settings settings = new Data.Settings() { Event = "Arizona North Regional", UserName = "Zach" };
+            Serializer.Serialize(Data.StaticData.Settings, "settings.txt");
+#endif
+            Initialize.Run();
             InitializeComponent();
         }
     }

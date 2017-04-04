@@ -12,9 +12,13 @@ namespace CocoScout
     {
         public static void Serialize(object obj, string file)
         {
-            string contents = JsonConvert.SerializeObject(obj);
-            Console.WriteLine("Serialized " + file + ":\n" + contents);
-            File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\" + file, contents);
+            try
+            {
+                string contents = JsonConvert.SerializeObject(obj);
+                Console.WriteLine("Serialized " + file + ":\n" + contents);
+                File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\" + file, contents);
+            }
+            catch (DirectoryNotFoundException ex) { Console.WriteLine(ex.Message); }
         }
         public static object Deserialize(string file)
         {
@@ -24,7 +28,7 @@ namespace CocoScout
                 Console.WriteLine("Deserialized " + file + ":\n" + contents);
                 return JsonConvert.DeserializeObject(contents);
             }
-            catch(FileNotFoundException ex) { Console.WriteLine(ex); }
+            catch(FileNotFoundException ex) { Console.WriteLine(ex.Message); }
             return null;
         }
     }

@@ -11,11 +11,11 @@ namespace CocoScout.Data
         /// <summary>
         /// Name of the person entering the data.
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; set; } = "Zach";
 
         /// <summary>
         /// Name of the event.
         /// </summary>
-        public string Event { get; set; }
+        public string Event { get; set; } = "";
     }
 }

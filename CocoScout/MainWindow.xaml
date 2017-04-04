@@ -3,15 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CocoScout"
+        xmlns:local="clr-namespace:CocoScout.UserControls"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="" Height="350" Width="525" ResizeMode="NoResize">
+        WindowStartupLocation="CenterScreen"
+        Closing="OnExit"
+        Title="" Height="350" Width="502" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <!--<RowDefinition Height="50px" />-->
             <RowDefinition />
         </Grid.RowDefinitions>
+
+        <!-- Team Header Image -->
+        <!--<Image Source="Resources\CocoNutsTransparent.png" />-->
+
+        <!-- Tab Controls -->
+        <Controls:MetroTabControl x:Name="TabControlSource" Grid.Row="1">
+            <!-- List View -->
+            <Controls:MetroTabItem x:Name="ListViewTabControl" Header="List View" Controls:ControlsHelper.HeaderFontSize="15">
+                <local:ListViewUC />
+            </Controls:MetroTabItem>
+            
+            <!-- Match Data -->
+            <Controls:MetroTabItem x:Name="MatchDataTabControl" Header="Match Data" Controls:ControlsHelper.HeaderFontSize="15">
+                <local:MatchDataUC/>
+            </Controls:MetroTabItem>
+            
+            <!-- Team Data -->
+            <Controls:MetroTabItem x:Name="TeamDataTabControl" Header="Team Data" Controls:ControlsHelper.HeaderFontSize="15">
+                <local:TeamDataUC/>
+            </Controls:MetroTabItem>
+            
+            <!-- Settings Tab -->
+            <Controls:MetroTabItem x:Name="SettingsTabControl" Header="Settings" Controls:ControlsHelper.HeaderFontSize="15">
+                <local:SettingsUC x:Name="SettingsUC"/>
+            </Controls:MetroTabItem>
+        </Controls:MetroTabControl>
     </Grid>
 </Controls:MetroWindow>

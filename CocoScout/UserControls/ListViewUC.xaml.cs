@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CocoScout
+namespace CocoScout.UserControls
 {
     /// <summary>
-    /// Interaction logic for ListUserControl.xaml
+    /// Interaction logic for ListViewUC.xaml
     /// </summary>
-    public partial class ListUserControl : UserControl
+    public partial class ListViewUC : UserControl
     {
-        public ListUserControl()
+        public ListViewUC()
         {
             InitializeComponent();
         }

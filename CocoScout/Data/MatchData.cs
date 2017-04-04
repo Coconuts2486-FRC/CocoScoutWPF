@@ -100,11 +100,19 @@ namespace CocoScout.Data
         /// <summary>
         /// How fast could they shoot fuel?
         /// </summary>
-        public byte FuelSpeed { get; set; }
+        public Speed FuelSpeed { get; set; }
         #endregion
 
         #region Climbing
-        public bool  Climbed    { get; set; }
+        public bool Climbed
+        {
+            get
+            {
+                if (ClimbSpeed == Speed.None)
+                    return false;
+                else return true;
+            }
+        }
         public Speed ClimbSpeed { get; set; } = Speed.None;
         #endregion
     }

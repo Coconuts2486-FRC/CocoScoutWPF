@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="CocoScout.UserControls.MatchListViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CocoScout.UserControls"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="502">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <TextBox Margin="2"
+                     Text="Type filter text here."
+                     Visibility="{Binding ElementName=TextFilter, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     IsReadOnly="True"
+                     Opacity="0.5"/>
+            <TextBox Name="TextFilter" Background="Transparent" Margin="2"/>
+        </Grid>
+        <DataGrid AutoGenerateColumns="True"
+                  SelectionMode="Single"
+                  SelectionUnit="Cell"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  ItemsSource="{Binding MatchDataList}"
+                  Margin="2">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit entry" Click="MenuItem_Click"/>
+                    <MenuItem Header="Delete entry" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+        </DataGrid>
+    </DockPanel>
+</UserControl>

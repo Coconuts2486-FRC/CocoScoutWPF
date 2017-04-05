@@ -77,17 +77,20 @@
     <Compile Include="Data\TeamData.cs" />
     <Compile Include="DataHandler.cs" />
     <Compile Include="Serializer.cs" />
-    <Compile Include="UserControls\ListViewUC.xaml.cs">
-      <DependentUpon>ListViewUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MatchDataUC.xaml.cs">
       <DependentUpon>MatchDataUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MatchListViewUC.xaml.cs">
+      <DependentUpon>MatchListViewUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SettingsUC.xaml.cs">
       <DependentUpon>SettingsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TeamDataUC.xaml.cs">
       <DependentUpon>TeamDataUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TeamListViewUC.xaml.cs">
+      <DependentUpon>TeamListViewUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
@@ -104,11 +107,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UserControls\ListViewUC.xaml">
+    <Page Include="UserControls\MatchDataUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MatchDataUC.xaml">
+    <Page Include="UserControls\MatchListViewUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,6 +120,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TeamDataUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TeamListViewUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

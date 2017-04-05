@@ -86,14 +86,14 @@ namespace CocoScout
                 var netSDKFile = new NetSDKCredentialsFile();
                 netSDKFile.RegisterProfile(profile);
 
-                AWSCredentials.Config = new AmazonDynamoDBConfig()
+                AWSConfig.Config = new AmazonDynamoDBConfig()
                 {
                     ServiceURL = "s3.amazonaws.com",
                     RegionEndpoint = RegionEndpoint.USWest2
                 };
-                AWSCredentials.Client = new AmazonDynamoDBClient(AWSCredentials.Config);
+                AWSConfig.Client = new AmazonDynamoDBClient(AWSConfig.Config);
 
-                AWSCredentials.Table = Table.LoadTable(AWSCredentials.Client, "ScoutingDataBase");
+                AWSConfig.Table = Table.LoadTable(AWSConfig.Client, "ScoutingDataBase");
             }
             catch(Exception) { Errors._AWSsuccess = false; }
         }
@@ -107,8 +107,9 @@ namespace CocoScout
                     Document data = new Document();
                     data["TeamNumber"] = td.TeamNumber;
                     data["MatchNumber"] = -1;
+                    data["Event"] = StaticData.Settings.Event;
                     data["Notes"] = td.Notes;
-                    AWSCredentials.Table.PutItem(data);
+                    AWSConfig.Table.PutItem(data);
                 }
                 foreach (MatchData md in StaticData.MatchDataList)
                 {
@@ -132,7 +133,7 @@ namespace CocoScout
                     data["TeleOpGearsPlaced"] = md.teleOpData.GearsPlaced;
                     data["TeleOpGearPickupGround"] = md.teleOpData.GearsPickupGround;
                     #endregion
-                    AWSCredentials.Table.PutItem(data);
+                    AWSConfig.Table.PutItem(data);
                 }
             }
             catch (Exception ex) { MessageBox.Show("There was an issue uploading to the database.\nMessage: " + ex.Message); }
@@ -140,11 +141,79 @@ namespace CocoScout
 
         public static void LoadDataCloud()
         {
+            try
+            {
+                ScanFilter scanFilter = new ScanFilter();
+                scanFilter.AddCondition("Event", ScanOperator.Equal, StaticData.Settings.Event);
+                scanFilter.AddCondition("Notes", ScanOperator.IsNull);
+                Search MatchSearch = AWSConfig.Table.Scan(scanFilter);
 
+                List<Document> documentList = new List<Document>();
+                do
+                {
+                    documentList = MatchSearch.GetNextSet();
+                    foreach (Document data in documentList)
+                    {
+                        try
+                        {
+                            MatchData matchData = new MatchData()
+                            {
+                                MatchNumber = (byte)data["MatchNumber"],
+                                TeamNumber  = (uint)data["TeamNumber"],
+
+                                autoData    = new AutoData()
+                                {
+                                    GearSpot      = (GearPlacement)Enum.Parse(typeof(GearPlacement), data["AutoGearSpot"]),
+                                    FuelHighSpeed = (Speed)Enum.Parse(typeof(Speed), data["AutoFuelHighSpeed"]),
+                                    Pressure      = (byte)data["AutoPressure"]
+                                },
+
+                                teleOpData = new TeleOpData()
+                                {
+                                    GearsPlaced = (byte)data["TeleOpGearsPlaced"],
+                                    GearsPickupGround = (bool)data["TeleOpGearPickupGround"],
+                                    FuelSpeed = (Speed)Enum.Parse(typeof(Speed), data["TeleOpFuelSpeed"]),
+                                    Pressure = (byte)data["TeleOpPressure"],
+                                    ClimbSpeed = (Speed)Enum.Parse(typeof(Speed), data["TeleOpClimbSpeed"])
+                                }
+                            };
+                            StaticData.MatchDataList.Remove(matchData);
+                            StaticData.MatchDataList.Add(matchData);
+                        }
+                        catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    }
+                }
+                while (!MatchSearch.IsDone);
+
+                scanFilter.RemoveCondition("Notes");
+                scanFilter.AddCondition("Notes", ScanOperator.IsNotNull);
+                Search TeamsSearch = AWSConfig.Table.Scan(scanFilter);
+
+                do
+                {
+                    documentList = TeamsSearch.GetNextSet();
+                    foreach (Document data in documentList)
+                    {
+                        try
+                        {
+                            TeamData teamData = new TeamData()
+                            {
+                                TeamNumber = (uint)data["TeamNumber"],
+                                Notes = data["Notes"]
+                            };
+                            StaticData.TeamDataList.Remove(teamData);
+                            StaticData.TeamDataList.Add(teamData);
+                        }
+                        catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    }
+                }
+                while (!TeamsSearch.IsDone);
+            }
+            catch(Exception ex) { MessageBox.Show("There was an issue loading from the database.\nMessage: " + ex.Message); }
         }
     }
 
-    class AWSCredentials
+    class AWSConfig
     {
         public static AmazonDynamoDBClient Client;
         public static AmazonDynamoDBConfig Config;

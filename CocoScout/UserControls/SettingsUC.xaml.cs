@@ -55,5 +55,20 @@ namespace CocoScout.UserControls
                 DataHandler.SaveDataCloud();
             }
         }
+
+        private void SaveLocallyEvent(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadLocallyClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GenerateImagesClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

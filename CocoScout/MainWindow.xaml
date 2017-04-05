@@ -20,9 +20,14 @@
 
         <!-- Tab Controls -->
         <Controls:MetroTabControl x:Name="TabControlSource" Grid.Row="1">
-            <!-- List View -->
-            <Controls:MetroTabItem x:Name="ListViewTabControl" Header="List View" Controls:ControlsHelper.HeaderFontSize="15">
-                <local:ListViewUC />
+            <!-- Match List View -->
+            <Controls:MetroTabItem x:Name="MatchListViewTabControl" Header="Match List" Controls:ControlsHelper.HeaderFontSize="15">
+                <local:MatchListViewUC />
+            </Controls:MetroTabItem>
+            
+            <!-- Team List View -->
+            <Controls:MetroTabItem x:Name="TeamListViewTabControl" Header="Team List" Controls:ControlsHelper.HeaderFontSize="15">
+                <local:TeamListViewUC />
             </Controls:MetroTabItem>
             
             <!-- Match Data -->

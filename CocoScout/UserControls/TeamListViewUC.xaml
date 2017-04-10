@@ -4,9 +4,42 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CocoScout.UserControls"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="300" d:DesignWidth="502">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <TextBox Margin="2"
+                     FontSize="14"
+                     Text="Type filter text here."
+                     Visibility="{Binding ElementName=TextFilter, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"
+                     IsReadOnly="True"
+                     Opacity="0.5"/>
+            <TextBox Name="TextFilter" Background="Transparent" Margin="2" FontSize="14"/>
+        </Grid>
+        <DataGrid x:Name="GridContent"
+                  FontSize="14"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  Loaded="GridLoaded"
+                  Margin="2" GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Team Number" Binding="{Binding TeamNumber}"/>
+                <DataGridTextColumn Header="User" Binding="{Binding User}"/>
+                <DataGridTextColumn Header="Event" Binding="{Binding Event}"/>
+                <DataGridTextColumn Header="Notes" Binding="{Binding Notes}"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Edit entry" Click="EditMenuClick"/>
+                    <MenuItem Header="Delete entry" Click="DeleteMenuClick"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

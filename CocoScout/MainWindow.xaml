@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="OnExit"
-        Title="" Height="350" Width="502" ResizeMode="NoResize">
+        Title="" Height="374" Width="502" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <!--<RowDefinition Height="50px" />-->
@@ -32,12 +32,12 @@
             
             <!-- Match Data -->
             <Controls:MetroTabItem x:Name="MatchDataTabControl" Header="Match Data" Controls:ControlsHelper.HeaderFontSize="15">
-                <local:MatchDataUC/>
+                <local:MatchDataUC x:Name="MatchDataEntryUC"/>
             </Controls:MetroTabItem>
             
             <!-- Team Data -->
             <Controls:MetroTabItem x:Name="TeamDataTabControl" Header="Team Data" Controls:ControlsHelper.HeaderFontSize="15">
-                <local:TeamDataUC/>
+                <local:TeamDataUC x:Name="TeamDataEntryUC"/>
             </Controls:MetroTabItem>
             
             <!-- Settings Tab -->

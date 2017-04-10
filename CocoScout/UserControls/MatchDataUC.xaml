@@ -4,9 +4,250 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CocoScout.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"
+             d:DesignHeight="320" d:DesignWidth="502" Loaded="ViewLoaded">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Label FontSize="14"
+               Content="Team Number"
+               Grid.Row="0"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               VerticalAlignment="Center"/>
+        <controls:NumericUpDown x:Name="TeamNumberBox"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="2"
+                                FontSize="14"
+                                Margin="2"
+                                HasDecimals="False"
+                                HideUpDownButtons="True"
+                                HorizontalContentAlignment="Left"
+                                Minimum="0"
+                                Maximum="7000"
+                                Value="{Binding TeamNumber}"/>
+        
+        <Label Content="Match Number"
+               FontSize="14"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               VerticalAlignment="Center"/>
+        <controls:NumericUpDown x:Name="MatchNumberBox"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="2"
+                                FontSize="14"
+                                Margin="2"
+                                HasDecimals="False"
+                                HorizontalContentAlignment="Left"
+                                HideUpDownButtons="True"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="{Binding MatchNumber}"/>
+
+        <!-- Auto -->
+        <Label Content="Autonomous Mode"
+               HorizontalAlignment="Center"
+               FontSize="16"
+               Grid.Row="3"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               VerticalAlignment="Center"/>
+        
+        <!-- Auto Gears -->
+        <Grid Grid.Row="4"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Gear Placement"
+                   FontSize="14"
+                   Margin="2"/>
+            <ComboBox x:Name="AutoGearPlacementBox"
+                      Grid.Column="1"
+                      FontSize="14"
+                      Margin="2"
+                      IsEditable="True"
+                      SelectedValue="{Binding AutoGearSpot}"/>
+        </Grid>
+        <!-- Auto Fuel -->
+        <Grid Grid.Row="5"
+              Grid.RowSpan="2"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Pressure"
+                   FontSize="14"
+                   Margin="2"/>
+            <controls:NumericUpDown x:Name="AutoPressureBox"
+                                    FontSize="14"
+                                    Margin="2"
+                                    Minimum="0"
+                                    Maximum="255"
+                                    HasDecimals="False"
+                                    Grid.Column="1"
+                                    TextAlignment="Left"
+                                    Value="{Binding AutoPressure}"/>
+            <Label Content="Pressure Speed"
+                   FontSize="14"
+                   Margin="2"
+                   Grid.Row="1"/>
+            <ComboBox x:Name="AutoFuelHighSpeedBox"
+                      Grid.Column="1"
+                      Grid.Row="1"
+                      FontSize="14"
+                      Margin="2"
+                      IsEditable="True"
+                      SelectedValue="{Binding AutoFuelHighSpeed}"/>
+        </Grid>
+        <!-- TeleOp -->
+        <Label Content="TeleOperated Mode"
+               HorizontalAlignment="Center"
+               FontSize="16"
+               Grid.Row="3"
+               Grid.Column="2"
+               Grid.ColumnSpan="2"
+               VerticalAlignment="Center"/>
+        
+        <!-- TeleOp Gears -->
+        <Grid Grid.Row="4"
+              Grid.RowSpan="2"
+              Grid.Column="2"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Gears Placed"
+                   FontSize="14"
+                   Margin="2"/>
+            <controls:NumericUpDown x:Name="TeleOpGearsPlaced"
+                                    FontSize="14"
+                                    Margin="2"
+                                    Minimum="0"
+                                    Maximum="10"
+                                    HasDecimals="False"
+                                    Grid.Column="1"
+                                    TextAlignment="Left"
+                                    Value="{Binding TeleOpGearsPlaced}"/>
+            <Label Content="Ground Pickup"
+                   FontSize="14"
+                   Margin="2"
+                   VerticalContentAlignment="Center"
+                   Grid.Row="1"/>
+            <controls:ToggleSwitch OnLabel="True"
+                                   x:Name="GroundPickupSwitch"
+                                   Margin="2 0 2 2"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
+                                   IsChecked="{Binding TeleOpGearsPickupGround}"
+                                   controls:ControlsHelper.HeaderFontSize="14"
+                                   OffLabel="False"/>
             
+        </Grid>
+        
+        <!-- TeleOp Fuel -->
+        <Grid Grid.Row="6"
+              Grid.RowSpan="2"
+              Grid.Column="2"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="Pressure"
+                   FontSize="14"
+                   Margin="2"/>
+            <controls:NumericUpDown x:Name="TeleOpPressureBox"
+                                    FontSize="14"
+                                    Margin="2"
+                                    Minimum="0"
+                                    Maximum="255"
+                                    HasDecimals="False"
+                                    Grid.Column="1"
+                                    TextAlignment="Left"
+                                    Value="{Binding TeleOpPressure}"/>
+            <Label Content="Pressure Speed"
+                   FontSize="14"
+                   Margin="2"
+                   Grid.Row="1"/>
+            <ComboBox x:Name="TeleOpFuelSpeedBox"
+                      Grid.Column="1"
+                      Grid.Row="1"
+                      FontSize="14"
+                      Margin="2"
+                      IsEditable="True"
+                      SelectedValue="{Binding TeleOpFuelSpeed}"/>
+        </Grid>
+        
+        <!-- Climbing -->
+        <Grid Grid.Row="8"
+              Grid.RowSpan="1"
+              Grid.Column="2"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Climb Speed"
+                   FontSize="14"
+                   Margin="2"/>
+            <ComboBox x:Name="ClimbSpeed"
+                      Grid.Column="1"
+                      FontSize="14"
+                      Margin="2"
+                      IsEditable="True"
+                      SelectedValue="{Binding ClimbSpeed}"/>
+        </Grid>
+        
+        <!-- Data Management -->
+        <Button Content="Add to List"
+                Grid.Row="9"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="2"
+                Click="AddToList"/>
+        <Button Content="Clear All Fields"
+                Grid.Row="9"
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                Margin="2"
+                Click="ClearAllFields"/>
     </Grid>
 </UserControl>

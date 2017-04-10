@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CocoScout.Data
 {
-    class TeamData
+    public class TeamData
     {
         /// <summary>
         /// Team number.
@@ -17,6 +17,37 @@ namespace CocoScout.Data
         /// String for any notes to be taken on.
         /// Default the string to being null.
         /// </summary>
-        public string Notes { get; set; } = null;
+        public string Notes { get; set; } = String.Empty;
+
+        public string Event
+        {
+            get
+            {
+                return StaticData.Settings.Event;
+            }
+        }
+
+        public string User
+        {
+            get
+            {
+                return StaticData.Settings.UserName;
+            }
+        }
+
+        public void ResetAllFields()
+        {
+            TeamNumber = 0;
+            Notes = "";
+        }
+
+        public override string ToString()
+        {
+            return
+                "Team Number: " + TeamNumber +
+                "\nUser:      " + User +
+                "\nEvent:     " + Event +
+                "\nNotes:     " + Notes;
+        }
     }
 }

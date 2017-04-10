@@ -121,17 +121,17 @@ namespace CocoScout
                     data["Event"] = md.Event;
 
 
-                    data["AutoFuelHighSpeed"] = md.autoData.FuelHighSpeed.ToString();
-                    data["AutoPressure"] = md.autoData.Pressure;
-                    data["AutoGearSpot"] = md.autoData.GearSpot.ToString();
-                    data["AutoPlacedGear"] = md.autoData.PlacedGear;
+                    data["AutoFuelHighSpeed"] = md.AutoFuelHighSpeed.ToString();
+                    data["AutoPressure"] = md.AutoPressure;
+                    data["AutoGearSpot"] = md.AutoGearSpot.ToString();
+                    data["AutoPlacedGear"] = md.AutoPlacedGear;
 
-                    data["TeleOpClimbed"] = md.teleOpData.Climbed;
-                    data["TeleOpClimbSpeed"] = md.teleOpData.ClimbSpeed.ToString();
-                    data["TeleOpFuelSpeed"] = md.teleOpData.FuelSpeed.ToString();
-                    data["TeleOpPressure"] = md.teleOpData.Pressure;
-                    data["TeleOpGearsPlaced"] = md.teleOpData.GearsPlaced;
-                    data["TeleOpGearPickupGround"] = md.teleOpData.GearsPickupGround;
+                    data["TeleOpClimbed"] = md.Climbed;
+                    data["TeleOpClimbSpeed"] = md.ClimbSpeed.ToString();
+                    data["TeleOpFuelSpeed"] = md.TeleOpFuelSpeed.ToString();
+                    data["TeleOpPressure"] = md.TeleOpPressure;
+                    data["TeleOpGearsPlaced"] = md.TeleOpGearsPlaced;
+                    data["TeleOpGearPickupGround"] = md.TeleOpGearsPickupGround;
                     #endregion
                     AWSConfig.Table.PutItem(data);
                 }
@@ -161,24 +161,17 @@ namespace CocoScout
                                 MatchNumber = (byte)data["MatchNumber"],
                                 TeamNumber  = (uint)data["TeamNumber"],
 
-                                autoData    = new AutoData()
-                                {
-                                    GearSpot      = (GearPlacement)Enum.Parse(typeof(GearPlacement), data["AutoGearSpot"]),
-                                    FuelHighSpeed = (Speed)Enum.Parse(typeof(Speed), data["AutoFuelHighSpeed"]),
-                                    Pressure      = (byte)data["AutoPressure"]
-                                },
+                                AutoGearSpot      = (GearPlacement)Enum.Parse(typeof(GearPlacement), data["AutoGearSpot"]),
+                                AutoFuelHighSpeed = (Speed)Enum.Parse(typeof(Speed), data["AutoFuelHighSpeed"]),
+                                AutoPressure      = (byte)data["AutoPressure"],
 
-                                teleOpData = new TeleOpData()
-                                {
-                                    GearsPlaced = (byte)data["TeleOpGearsPlaced"],
-                                    GearsPickupGround = (bool)data["TeleOpGearPickupGround"],
-                                    FuelSpeed = (Speed)Enum.Parse(typeof(Speed), data["TeleOpFuelSpeed"]),
-                                    Pressure = (byte)data["TeleOpPressure"],
-                                    ClimbSpeed = (Speed)Enum.Parse(typeof(Speed), data["TeleOpClimbSpeed"])
-                                }
+                                TeleOpGearsPlaced       = (byte)data["TeleOpGearsPlaced"],
+                                TeleOpGearsPickupGround = (bool)data["TeleOpGearPickupGround"],
+                                TeleOpFuelSpeed         = (Speed)Enum.Parse(typeof(Speed), data["TeleOpFuelSpeed"]),
+                                TeleOpPressure          = (byte)data["TeleOpPressure"],
+                                ClimbSpeed              = (Speed)Enum.Parse(typeof(Speed), data["TeleOpClimbSpeed"])
                             };
-                            StaticData.MatchDataList.Remove(matchData);
-                            StaticData.MatchDataList.Add(matchData);
+                            AddDataToList(matchData);
                         }
                         catch (Exception ex) { MessageBox.Show(ex.Message); }
                     }
@@ -201,8 +194,7 @@ namespace CocoScout
                                 TeamNumber = (uint)data["TeamNumber"],
                                 Notes = data["Notes"]
                             };
-                            StaticData.TeamDataList.Remove(teamData);
-                            StaticData.TeamDataList.Add(teamData);
+                            AddDataToList(teamData);
                         }
                         catch (Exception ex) { MessageBox.Show(ex.Message); }
                     }
@@ -210,6 +202,19 @@ namespace CocoScout
                 while (!TeamsSearch.IsDone);
             }
             catch(Exception ex) { MessageBox.Show("There was an issue loading from the database.\nMessage: " + ex.Message); }
+        }
+
+        public static void AddDataToList(MatchData matchData)
+        {
+            StaticData.MatchDataList.Remove(StaticData.MatchDataList.SingleOrDefault(s => s.TeamNumber == matchData.TeamNumber
+                                                                         && s.MatchNumber == matchData.MatchNumber));
+            StaticData.MatchDataList.Add(matchData);
+        }
+
+        public static void AddDataToList(TeamData teamData)
+        {
+            StaticData.TeamDataList.Remove(StaticData.TeamDataList.SingleOrDefault(s => s.TeamNumber == teamData.TeamNumber));
+            StaticData.TeamDataList.Add(teamData);
         }
     }
 

@@ -1,5 +1,7 @@
 ﻿using CocoScout.Data;
 using CocoScout.Windows;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,15 +47,15 @@ namespace CocoScout.UserControls
             DataHandler.LoadDataCloud();
         }
 
-        private void SaveCloudEvent(object sender, RoutedEventArgs e)
+        private async void SaveCloudEvent(object sender, RoutedEventArgs e)
         {
-            PasswordDialog dg = new PasswordDialog();
-            dg.ShowDialog();
-            if(PasswordDialog.IsAllowed == true)
-            {
-                Console.WriteLine("Password was correct.");
+            var window = Application.Current.MainWindow as MetroWindow;
+            var result = await window.ShowInputAsync("Save to Cloud", "Please enter the password.");
+            if (result == "@CocoNuts")
                 DataHandler.SaveDataCloud();
-            }
+            else if (String.IsNullOrEmpty(result)) ;
+            else
+                await window.ShowMessageAsync("Save to Cloud", "Incorrect password.");
         }
 
         private void SaveLocallyEvent(object sender, RoutedEventArgs e)
@@ -62,11 +64,6 @@ namespace CocoScout.UserControls
         }
 
         private void LoadLocallyClick(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void GenerateImagesClick(object sender, RoutedEventArgs e)
         {
 
         }

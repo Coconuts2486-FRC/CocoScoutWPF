@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="502">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
@@ -32,6 +32,8 @@
         <TextBox Grid.Column="1"
                  Grid.Row="0"
                  x:Name="UserNameTextbox"
+                 VerticalContentAlignment="Center"
+                 FontSize="14"
                  Text="{Binding UserName}"
                  Margin="2"/>
 
@@ -43,8 +45,10 @@
         <ComboBox Grid.Column="3"
                   Grid.Row="0"
                   x:Name="RegionalComboBox"
+                  VerticalContentAlignment="Center"
                   IsEditable="True"
                   SelectionChanged="RegionalSelected"
+                  FontSize="14"
                   Margin="2">
             <ComboBoxItem>
                 Arizona North
@@ -85,10 +89,5 @@
                 Grid.ColumnSpan="2"
                 Margin="2"
                 Click="LoadLocallyClick"/>
-        <Button Content="Generate Images"
-                Grid.Row="3"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="2" Click="GenerateImagesClick"/>
     </Grid>
 </UserControl>

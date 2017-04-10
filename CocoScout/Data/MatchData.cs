@@ -43,13 +43,6 @@ namespace CocoScout.Data
 
     public class MatchData
     {
-        public MatchData() : this(null, null) { }
-        public MatchData(TeleOpData tData, AutoData aData)
-        {
-            teleOpData = tData;
-            autoData   = aData;
-        }
-
         /// <summary>
         /// Team number.
         /// </summary>
@@ -74,9 +67,106 @@ namespace CocoScout.Data
                 return StaticData.Settings.Event;
             }
         }
+        #region TeleOp
+        #region Gears
+        /// <summary>
+        /// How many gears did they place?
+        /// </summary>
+        public byte TeleOpGearsPlaced { get; set; }
+        /// <summary>
+        /// Can they pick up gears from the ground?
+        /// </summary>
+        public bool TeleOpGearsPickupGround { get; set; }
+        #endregion
 
-        public TeleOpData teleOpData;
-        public AutoData autoData;
+        #region Fuel
+        /// <summary>
+        /// How much pressure did they build?
+        /// </summary>
+        public byte TeleOpPressure { get; set; }
+        /// <summary>
+        /// How fast could they shoot fuel?
+        /// </summary>
+        public Speed TeleOpFuelSpeed { get; set; }
+        #endregion
+
+        #region Climbing
+        public bool Climbed
+        {
+            get
+            {
+                if (ClimbSpeed == Speed.None)
+                    return false;
+                else return true;
+            }
+        }
+        public Speed ClimbSpeed { get; set; } = Speed.None;
+        #endregion
+        #endregion
+        #region Auto
+        #region Gears
+        /// <summary>
+        /// Whether or not they placed a gear.
+        /// </summary>
+        public bool AutoPlacedGear
+        {
+            get
+            {
+                if (AutoGearSpot != GearPlacement.None)
+                    return true;
+                else return false;
+            }
+        }
+        /// <summary>
+        /// Where they placed a gear.
+        /// </summary>
+        public GearPlacement AutoGearSpot { get; set; } = GearPlacement.None;
+        #endregion
+
+        #region Fuel
+        /// <summary>
+        /// How much pressure did they build?
+        /// </summary>
+        public byte AutoPressure { get; set; }
+        /// <summary>
+        /// How fast could they shoot fuel?
+        /// </summary>
+        public Speed AutoFuelHighSpeed { get; set; } = Speed.None;
+        #endregion
+        #endregion
+
+        public void ResetAllFields()
+        {
+            TeamNumber = 0;
+            MatchNumber = 0;
+            TeleOpGearsPlaced = 0;
+            TeleOpGearsPickupGround = false;
+            TeleOpPressure = 0;
+            TeleOpFuelSpeed = Speed.None;
+            ClimbSpeed = Speed.None;
+            AutoGearSpot = GearPlacement.None;
+            AutoPressure = 0;
+            AutoFuelHighSpeed = Speed.None;
+        }
+
+        public override string ToString()
+        {
+            return
+                "Team Number:    " + TeamNumber +
+                "\nMatch Number:   " + MatchNumber +
+                "\nUser:           " + User +
+                "\nEvent:          " + Event +
+                "\nA Placed Gear:  " + AutoPlacedGear +
+                "\nA Gear Spot:    " + AutoGearSpot +
+                "\nA Pressure:     " + AutoPressure +
+                "\nA Fuel Speed:   " + AutoFuelHighSpeed +
+                "\nT Gears Placed: " + TeleOpGearsPlaced +
+                "\nGear Pickup:    " + TeleOpGearsPickupGround +
+                "\nT Pressure:     " + TeleOpPressure +
+                "\nT Fuel Speed:   " + TeleOpFuelSpeed +
+                "\nClimbed:        " + Climbed +
+                "\nClimb Speed:    " + ClimbSpeed;
+        }
     }
 
     public class TeleOpData

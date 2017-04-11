@@ -41,7 +41,7 @@ namespace CocoScout.UserControls
                 window.MatchDataEntryUC.LoadData(SelectedItem);
                 window.TabControlSource.SelectedIndex = 2;
             }
-            catch(Exception ex) { }
+            catch(Exception) { }
         }
 
         private void DeleteMenuClick(object sender, RoutedEventArgs e)
@@ -49,16 +49,16 @@ namespace CocoScout.UserControls
             try
             {
                 MatchData matchData = (MatchData)((DataGrid)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).SelectedCells[0].Item;
-                StaticData.MatchDataList.Remove(StaticData.MatchDataList.SingleOrDefault(s => s.TeamNumber == matchData.TeamNumber
+                StaticDataViewModel.DataList.MatchDataList.Remove(StaticDataViewModel.DataList.MatchDataList.SingleOrDefault(s => s.TeamNumber == matchData.TeamNumber
                                                                              && s.MatchNumber == matchData.MatchNumber));
             }
-            catch(Exception ex) { }
+            catch(Exception) { }
         }
 
         private void GridLoaded(object sender, RoutedEventArgs e)
         {
             var grid = sender as DataGrid;
-            grid.ItemsSource = StaticData.MatchDataList;
+            grid.ItemsSource = StaticDataViewModel.DataList.MatchDataList;
         }
     }
 }

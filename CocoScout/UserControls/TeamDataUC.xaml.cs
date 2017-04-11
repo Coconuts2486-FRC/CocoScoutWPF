@@ -37,12 +37,13 @@ namespace CocoScout.UserControls
             this.DataContext = data;
         }
 
-        private async void AddToList(object sender, RoutedEventArgs e)
+        private void AddToList(object sender, RoutedEventArgs e)
         {
+            data.User = StaticDataViewModel.DataList.Settings.UserName;
+            data.Event = StaticDataViewModel.DataList.Settings.Event;
             if (String.IsNullOrEmpty(data.Notes))
             {
-                var window = Application.Current.MainWindow as MetroWindow;
-                await window.ShowMessageAsync("Add Data to List", "Notes field is empty.", MessageDialogStyle.Affirmative);
+                DataHandler.ShowErrorAsync("Add Data to List", "Notes field is empty.");
             }
             else DataHandler.AddDataToList(data);
         }

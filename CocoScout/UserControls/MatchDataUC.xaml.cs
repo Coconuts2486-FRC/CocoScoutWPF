@@ -48,6 +48,8 @@ namespace CocoScout.UserControls
         private void AddToList(object sender, RoutedEventArgs e)
         {
             Console.WriteLine(data);
+            data.User = StaticDataViewModel.DataList.Settings.UserName;
+            data.Event = StaticDataViewModel.DataList.Settings.Event;
             //var window = Application.Current.MainWindow as MetroWindow;
             //var result = await window.ShowMessageAsync("Add Data to List", "Please enter the password.");
             //Console.WriteLine(")

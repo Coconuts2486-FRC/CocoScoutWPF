@@ -18,10 +18,6 @@ namespace CocoScout
         public MainWindow()
         {
             DataHandler.Run();
-#if DEBUG
-            Data.Settings settings = new Data.Settings() { Event = "Arizona North Regional", UserName = "Zach" };
-            Serializer.Serialize(Data.StaticData.Settings, "settings.txt");
-#endif
             InitializeComponent();
         }
 

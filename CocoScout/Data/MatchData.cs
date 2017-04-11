@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,41 +42,37 @@ namespace CocoScout.Data
         HopperSide
     }
 
+    [JsonObject]
     public class MatchData
     {
         /// <summary>
         /// Team number.
         /// </summary>
+        [JsonProperty(PropertyName = "Team Number")]
         public uint TeamNumber  { get; set; }
         /// <summary>
         /// Match number.
         /// </summary>
+        [JsonProperty(PropertyName = "Match Number")]
         public byte MatchNumber { get; set; }
 
-        public string User
-        {
-            get
-            {
-                return StaticData.Settings.UserName;
-            }
-        }
+        [JsonProperty(PropertyName = "User")]
+        public string User { get; set; }
 
-        public string Event
-        {
-            get
-            {
-                return StaticData.Settings.Event;
-            }
-        }
+        [JsonProperty(PropertyName = "Event")]
+        public string Event { get; set; }
+
         #region TeleOp
         #region Gears
         /// <summary>
         /// How many gears did they place?
         /// </summary>
+        [JsonProperty(PropertyName = "TeleOp Gears Placed")]
         public byte TeleOpGearsPlaced { get; set; }
         /// <summary>
         /// Can they pick up gears from the ground?
         /// </summary>
+        [JsonProperty(PropertyName = "TeleOp Gear Pickup Ground")]
         public bool TeleOpGearsPickupGround { get; set; }
         #endregion
 
@@ -83,14 +80,17 @@ namespace CocoScout.Data
         /// <summary>
         /// How much pressure did they build?
         /// </summary>
+        [JsonProperty(PropertyName = "TeleOp Pressure")]
         public byte TeleOpPressure { get; set; }
         /// <summary>
         /// How fast could they shoot fuel?
         /// </summary>
+        [JsonProperty(PropertyName = "TeleOp Fuel Speed")]
         public Speed TeleOpFuelSpeed { get; set; }
         #endregion
 
         #region Climbing
+        [JsonProperty(PropertyName = "Climbed")]
         public bool Climbed
         {
             get
@@ -100,6 +100,7 @@ namespace CocoScout.Data
                 else return true;
             }
         }
+        [JsonProperty(PropertyName = "Climb Speed")]
         public Speed ClimbSpeed { get; set; } = Speed.None;
         #endregion
         #endregion
@@ -108,6 +109,7 @@ namespace CocoScout.Data
         /// <summary>
         /// Whether or not they placed a gear.
         /// </summary>
+        [JsonProperty(PropertyName = "Auto Placed Gear")]
         public bool AutoPlacedGear
         {
             get
@@ -120,6 +122,7 @@ namespace CocoScout.Data
         /// <summary>
         /// Where they placed a gear.
         /// </summary>
+        [JsonProperty(PropertyName = "Auto Gear Spot")]
         public GearPlacement AutoGearSpot { get; set; } = GearPlacement.None;
         #endregion
 
@@ -127,10 +130,12 @@ namespace CocoScout.Data
         /// <summary>
         /// How much pressure did they build?
         /// </summary>
+        [JsonProperty(PropertyName = "Auto Pressure")]
         public byte AutoPressure { get; set; }
         /// <summary>
         /// How fast could they shoot fuel?
         /// </summary>
+        [JsonProperty(PropertyName = "Auto Fuel Speed")]
         public Speed AutoFuelHighSpeed { get; set; } = Speed.None;
         #endregion
         #endregion

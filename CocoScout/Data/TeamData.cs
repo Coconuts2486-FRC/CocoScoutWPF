@@ -19,21 +19,9 @@ namespace CocoScout.Data
         /// </summary>
         public string Notes { get; set; } = String.Empty;
 
-        public string Event
-        {
-            get
-            {
-                return StaticData.Settings.Event;
-            }
-        }
+        public string Event { get; set; }
 
-        public string User
-        {
-            get
-            {
-                return StaticData.Settings.UserName;
-            }
-        }
+        public string User { get; set; }
 
         public void ResetAllFields()
         {

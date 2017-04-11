@@ -28,18 +28,18 @@ namespace CocoScout.UserControls
         public SettingsUC()
         {
             InitializeComponent();
-            UserNameTextbox.DataContext = StaticData.Settings;
+            UserNameTextbox.DataContext = StaticDataViewModel.DataList.Settings;
             UpdateRegional();
         }
 
         private void RegionalSelected(object sender, SelectionChangedEventArgs e)
         {
-            StaticData.Settings.Event = ((ComboBoxItem)RegionalComboBox.SelectedItem).Content.ToString();
+            StaticDataViewModel.DataList.Settings.Event = ((ComboBoxItem)RegionalComboBox.SelectedItem).Content.ToString();
         }
 
         public void UpdateRegional()
         {
-            RegionalComboBox.SelectedItem = StaticData.Settings.Event.ToString();
+            RegionalComboBox.SelectedItem = StaticDataViewModel.DataList.Settings.Event.ToString();
         }
 
         private void LoadCloudEvent(object sender, RoutedEventArgs e)
@@ -60,12 +60,12 @@ namespace CocoScout.UserControls
 
         private void SaveLocallyEvent(object sender, RoutedEventArgs e)
         {
-
+            DataHandler.SaveLocal();
         }
 
         private void LoadLocallyClick(object sender, RoutedEventArgs e)
         {
-
+            DataHandler.LoadLocal();
         }
     }
 }

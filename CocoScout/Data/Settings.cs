@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CocoScout.Data
 {
-    class Settings
+    public class Settings
     {
         /// <summary>
         /// Name of the person entering the data.

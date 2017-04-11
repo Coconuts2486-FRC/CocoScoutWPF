@@ -13,5 +13,10 @@ namespace CocoScout
     /// </summary>
     public partial class App : Application
     {
+        private void ExitHandler(object sender, ExitEventArgs e)
+        {
+            DataHandler.SaveSettings();
+            DataHandler.SaveLocal(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\backup.scout");
+        }
     }
 }

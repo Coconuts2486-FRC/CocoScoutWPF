@@ -3,6 +3,9 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.Runtime.CredentialManagement;
 using CocoScout.Data;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -36,11 +39,11 @@ namespace CocoScout
                 Console.WriteLine("Created root directory at " + rootDirectory);
             }
 
-            if(File.Exists(rootDirectory + "\\regionals.txt"))
+            if (File.Exists(rootDirectory + "\\regionals.txt"))
             {
                 Console.WriteLine("List of regionals:");
-                Data.StaticData.EventList = LoadDataFile(rootDirectory + "\\regionals.txt");
-                foreach (string s in Data.StaticData.EventList)
+                StaticDataViewModel.DataList.EventList = LoadDataFile(rootDirectory + "\\regionals.txt");
+                foreach (string s in StaticDataViewModel.DataList.EventList)
                     Console.WriteLine(" - " + s);
             }
             else
@@ -56,12 +59,12 @@ namespace CocoScout
 
         public static void SaveSettings()
         {
-            Serializer.Serialize(StaticData.Settings, "settings.txt");
+            Serializer.Serialize(StaticDataViewModel.DataList.Settings, "settings.txt");
         }
 
         public static void LoadSettings()
         {
-            StaticData.Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\settings.txt")) ?? new Settings();
+            StaticDataViewModel.DataList.Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\settings.txt")) ?? new Settings();
         }
 
         public static void OnExitHandler()
@@ -95,23 +98,24 @@ namespace CocoScout
 
                 AWSConfig.Table = Table.LoadTable(AWSConfig.Client, "ScoutingDataBase");
             }
-            catch(Exception) { Errors._AWSsuccess = false; }
+            catch (Exception) { Errors._AWSsuccess = false; }
         }
 
         public static void SaveDataCloud()
         {
             try
             {
-                foreach (TeamData td in StaticData.TeamDataList)
+                foreach (TeamData td in StaticDataViewModel.DataList.TeamDataList)
                 {
                     Document data = new Document();
                     data["TeamNumber"] = td.TeamNumber;
                     data["MatchNumber"] = -1;
-                    data["Event"] = StaticData.Settings.Event;
+                    data["Event"] = StaticDataViewModel.DataList.Settings.Event;
                     data["Notes"] = td.Notes;
+                    data["User"] = td.User;
                     AWSConfig.Table.PutItem(data);
                 }
-                foreach (MatchData md in StaticData.MatchDataList)
+                foreach (MatchData md in StaticDataViewModel.DataList.MatchDataList)
                 {
                     Document data = new Document();
                     #region Uploading Data
@@ -144,7 +148,7 @@ namespace CocoScout
             try
             {
                 ScanFilter scanFilter = new ScanFilter();
-                scanFilter.AddCondition("Event", ScanOperator.Equal, StaticData.Settings.Event);
+                scanFilter.AddCondition("Event", ScanOperator.Equal, StaticDataViewModel.DataList.Settings.Event);
                 scanFilter.AddCondition("Notes", ScanOperator.IsNull);
                 Search MatchSearch = AWSConfig.Table.Scan(scanFilter);
 
@@ -159,17 +163,19 @@ namespace CocoScout
                             MatchData matchData = new MatchData()
                             {
                                 MatchNumber = (byte)data["MatchNumber"],
-                                TeamNumber  = (uint)data["TeamNumber"],
+                                TeamNumber = (uint)data["TeamNumber"],
+                                Event = (string)data["Event"],
+                                User = data["User"],
 
-                                AutoGearSpot      = (GearPlacement)Enum.Parse(typeof(GearPlacement), data["AutoGearSpot"]),
+                                AutoGearSpot = (GearPlacement)Enum.Parse(typeof(GearPlacement), data["AutoGearSpot"]),
                                 AutoFuelHighSpeed = (Speed)Enum.Parse(typeof(Speed), data["AutoFuelHighSpeed"]),
-                                AutoPressure      = (byte)data["AutoPressure"],
+                                AutoPressure = (byte)data["AutoPressure"],
 
-                                TeleOpGearsPlaced       = (byte)data["TeleOpGearsPlaced"],
+                                TeleOpGearsPlaced = (byte)data["TeleOpGearsPlaced"],
                                 TeleOpGearsPickupGround = (bool)data["TeleOpGearPickupGround"],
-                                TeleOpFuelSpeed         = (Speed)Enum.Parse(typeof(Speed), data["TeleOpFuelSpeed"]),
-                                TeleOpPressure          = (byte)data["TeleOpPressure"],
-                                ClimbSpeed              = (Speed)Enum.Parse(typeof(Speed), data["TeleOpClimbSpeed"])
+                                TeleOpFuelSpeed = (Speed)Enum.Parse(typeof(Speed), data["TeleOpFuelSpeed"]),
+                                TeleOpPressure = (byte)data["TeleOpPressure"],
+                                ClimbSpeed = (Speed)Enum.Parse(typeof(Speed), data["TeleOpClimbSpeed"])
                             };
                             AddDataToList(matchData);
                         }
@@ -192,7 +198,9 @@ namespace CocoScout
                             TeamData teamData = new TeamData()
                             {
                                 TeamNumber = (uint)data["TeamNumber"],
-                                Notes = data["Notes"]
+                                Notes = data["Notes"],
+                                Event = data["Event"],
+                                User = data["User"]
                             };
                             AddDataToList(teamData);
                         }
@@ -201,20 +209,84 @@ namespace CocoScout
                 }
                 while (!TeamsSearch.IsDone);
             }
-            catch(Exception ex) { MessageBox.Show("There was an issue loading from the database.\nMessage: " + ex.Message); }
+            catch (Exception ex) { MessageBox.Show("There was an issue loading from the database.\nMessage: " + ex.Message); }
         }
 
         public static void AddDataToList(MatchData matchData)
         {
-            StaticData.MatchDataList.Remove(StaticData.MatchDataList.SingleOrDefault(s => s.TeamNumber == matchData.TeamNumber
+            StaticDataViewModel.DataList.MatchDataList.Remove(StaticDataViewModel.DataList.MatchDataList.SingleOrDefault(s => s.TeamNumber == matchData.TeamNumber
                                                                          && s.MatchNumber == matchData.MatchNumber));
-            StaticData.MatchDataList.Add(matchData);
+            StaticDataViewModel.DataList.MatchDataList.Add(matchData);
         }
 
         public static void AddDataToList(TeamData teamData)
         {
-            StaticData.TeamDataList.Remove(StaticData.TeamDataList.SingleOrDefault(s => s.TeamNumber == teamData.TeamNumber));
-            StaticData.TeamDataList.Add(teamData);
+            StaticDataViewModel.DataList.TeamDataList.Remove(StaticDataViewModel.DataList.TeamDataList.SingleOrDefault(s => s.TeamNumber == teamData.TeamNumber));
+            StaticDataViewModel.DataList.TeamDataList.Add(teamData);
+        }
+
+        public static void SaveLocal()
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            dlg.FileName = StaticDataViewModel.DataList.Settings.Event + " - " + StaticDataViewModel.DataList.Settings.UserName;
+            dlg.DefaultExt = ".scout";
+            dlg.Filter = "Scouting Files (.scout)|*.scout";
+
+            bool? result = dlg.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    string path = dlg.FileName;
+                    Console.WriteLine("Saving data to " + path);
+                    string data = JsonConvert.SerializeObject(StaticDataViewModel.DataList);
+#if DEBUG
+                    Console.WriteLine(data);
+#endif
+                    File.WriteAllText(path, data);
+                }
+                catch (InvalidOperationException) { ShowErrorAsync("Saving Error", "Storage is either full or file exists and is read only."); }
+                catch (PathTooLongException) { ShowErrorAsync("Saving Error", "Path is too long."); }
+            }
+        }
+
+        public static void SaveLocal(string directory)
+        {
+                try
+                {
+                    Console.WriteLine("Saving data to " + directory);
+                    string data = JsonConvert.SerializeObject(StaticDataViewModel.DataList);
+#if DEBUG
+                    Console.WriteLine(data);
+#endif
+                    File.WriteAllText(directory, data);
+                }
+                catch (InvalidOperationException) { ShowErrorAsync("Saving Error", "Storage is either full or file exists and is read only."); }
+                catch (PathTooLongException) { ShowErrorAsync("Saving Error", "Path is too long."); }
+        }
+
+        public static void LoadLocal()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+
+            dlg.DefaultExt = ".scout";
+            dlg.Filter = "Scouting Files (.scout)|*.scout";
+
+            bool? result = dlg.ShowDialog();
+            if(result == true)
+            {
+                string path = dlg.FileName;
+                string data = File.ReadAllText(path);
+                StaticDataViewModel.DataList = JsonConvert.DeserializeObject<StaticData>(data);
+                LoadSettings();
+            }
+        }
+
+        public static async void ShowErrorAsync(string title, string message)
+        {
+            var window = Application.Current.MainWindow as MetroWindow;
+            await window.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative);
         }
     }
 

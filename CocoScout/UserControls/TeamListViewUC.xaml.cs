@@ -40,7 +40,7 @@ namespace CocoScout.UserControls
                 window.TeamDataEntryUC.LoadData(SelectedItem);
                 window.TabControlSource.SelectedIndex = 3;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         private void DeleteMenuClick(object sender, RoutedEventArgs e)
@@ -48,15 +48,15 @@ namespace CocoScout.UserControls
             try
             {
                 TeamData teamData = (TeamData)((DataGrid)((ContextMenu)((MenuItem)sender).Parent).PlacementTarget).SelectedCells[0].Item;
-                StaticData.TeamDataList.Remove(StaticData.TeamDataList.SingleOrDefault(s => s.TeamNumber == teamData.TeamNumber));
+                StaticDataViewModel.DataList.TeamDataList.Remove(StaticDataViewModel.DataList.TeamDataList.SingleOrDefault(s => s.TeamNumber == teamData.TeamNumber));
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
         private void GridLoaded(object sender, RoutedEventArgs e)
         {
             var grid = sender as DataGrid;
-            grid.ItemsSource = StaticData.TeamDataList;
+            grid.ItemsSource = StaticDataViewModel.DataList.TeamDataList;
         }
     }
 }

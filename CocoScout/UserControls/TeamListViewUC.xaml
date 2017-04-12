@@ -9,13 +9,13 @@
              d:DesignHeight="300" d:DesignWidth="502">
     <DockPanel>
         <Grid DockPanel.Dock="Top">
-            <TextBox Margin="2"
+            <!--<TextBox Margin="2"
                      FontSize="14"
                      Text="Type filter text here."
                      Visibility="{Binding ElementName=TextFilter, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"
                      IsReadOnly="True"
-                     Opacity="0.5"/>
-            <TextBox Name="TextFilter" Background="Transparent" Margin="2" FontSize="14"/>
+                     Opacity="0.5"/>-->
+            <!--<TextBox Name="TextFilter" Controls:TextBoxHelper.Watermark="Enter filter text here." Margin="2" FontSize="14"/>-->
         </Grid>
         <DataGrid x:Name="GridContent"
                   FontSize="14"

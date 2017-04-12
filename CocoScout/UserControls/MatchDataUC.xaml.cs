@@ -48,12 +48,25 @@ namespace CocoScout.UserControls
         private void AddToList(object sender, RoutedEventArgs e)
         {
             Console.WriteLine(data);
+            if (String.IsNullOrEmpty(StaticDataViewModel.DataList.Settings.UserName))
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Username field in settings is empty. Please enter your username.");
+                return;
+            }
+            else if (String.IsNullOrEmpty(StaticDataViewModel.DataList.Settings.Event))
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Event field in settings is empty. Please select an event.");
+                return;
+            }
             data.User = StaticDataViewModel.DataList.Settings.UserName;
             data.Event = StaticDataViewModel.DataList.Settings.Event;
             //var window = Application.Current.MainWindow as MetroWindow;
             //var result = await window.ShowMessageAsync("Add Data to List", "Please enter the password.");
             //Console.WriteLine(")
             DataHandler.AddDataToList(data);
+            data = new MatchData();
+            ReloadBindings();
+            ClearAllFields(null, null);
         }
 
         private void ClearAllFields(object sender, RoutedEventArgs e)
@@ -68,6 +81,11 @@ namespace CocoScout.UserControls
             TeleOpPressureBox.Value = 0;
             TeleOpFuelSpeedBox.SelectedItem = Speed.None;
             ClimbSpeed.SelectedItem = Speed.None;
+        }
+
+        private void ReloadBindings()
+        {
+            this.DataContext = data;
         }
     }
 }

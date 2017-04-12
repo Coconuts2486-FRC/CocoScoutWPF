@@ -67,5 +67,17 @@ namespace CocoScout.UserControls
         {
             DataHandler.LoadLocal();
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach(ComboBoxItem item in RegionalComboBox.Items)
+            {
+                if(item.Content.ToString() == StaticDataViewModel.DataList.Settings.Event)
+                {
+                    RegionalComboBox.SelectedValue = item;
+                    break;
+                }
+            }
+        }
     }
 }

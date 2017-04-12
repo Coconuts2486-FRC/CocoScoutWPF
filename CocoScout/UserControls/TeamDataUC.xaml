@@ -39,7 +39,7 @@
                      Visibility="{Binding ElementName=NotesBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"
                      IsReadOnly="True"
                      Opacity="0.5"/>
-            <TextBox Name="NotesBox" Background="Transparent" Margin="2" FontSize="14" Text="{Binding Notes}" />
+            <TextBox Name="NotesBox" controls:TextBoxHelper.Watermark="Enter team data here, such as autonomous modes or drive train type." Margin="2" FontSize="14" Text="{Binding Notes}" />
         </Grid>
         <!-- Data Management -->
         <Button Content="Add to List"

@@ -7,6 +7,7 @@
              xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="CocoScout.UserControls.SettingsUC"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
              d:DesignHeight="300" d:DesignWidth="502">
     <Grid>
         <Grid.RowDefinitions>
@@ -34,6 +35,7 @@
                  x:Name="UserNameTextbox"
                  VerticalContentAlignment="Center"
                  FontSize="14"
+                 Controls:TextBoxHelper.Watermark="ex. Zach"
                  Text="{Binding UserName}"
                  Margin="2"/>
 

@@ -39,13 +39,27 @@ namespace CocoScout.UserControls
 
         private void AddToList(object sender, RoutedEventArgs e)
         {
-            data.User = StaticDataViewModel.DataList.Settings.UserName;
-            data.Event = StaticDataViewModel.DataList.Settings.Event;
             if (String.IsNullOrEmpty(data.Notes))
             {
                 DataHandler.ShowErrorAsync("Add Data to List", "Notes field is empty.");
             }
-            else DataHandler.AddDataToList(data);
+            else if (String.IsNullOrEmpty(StaticDataViewModel.DataList.Settings.UserName))
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Username field in settings is empty. Please enter your username.");
+            }
+            else if (String.IsNullOrEmpty(StaticDataViewModel.DataList.Settings.Event))
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Event field in settings is empty. Please select an event.");
+            }
+            else
+            {
+                data.User = StaticDataViewModel.DataList.Settings.UserName;
+                data.Event = StaticDataViewModel.DataList.Settings.Event;
+                DataHandler.AddDataToList(data);
+                data = new TeamData();
+                this.DataContext = data;
+                ClearAllFields(null, null);
+            }
         }
 
         private void ClearAllFields(object sender, RoutedEventArgs e)

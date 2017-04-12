@@ -77,7 +77,6 @@ namespace CocoScout
             try
             {
                 // This is where the secret key is stored.
-                // DO NOT DEPLOY TO A VCS WITH THIS.
                 var options = new CredentialProfileOptions
                 {
                     AccessKey = "",

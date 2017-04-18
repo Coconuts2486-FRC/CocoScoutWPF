@@ -51,13 +51,18 @@ namespace CocoScout.UserControls
             {
                 DataHandler.ShowErrorAsync("Add Data to List", "Event field in settings is empty. Please select an event.");
             }
+            else if (data.TeamNumber == 0)
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Team Number is zero. Please set the team number in the data screen.");
+                return;
+            }
             else
             {
                 data.User = StaticDataViewModel.DataList.Settings.UserName;
                 data.Event = StaticDataViewModel.DataList.Settings.Event;
                 DataHandler.AddDataToList(data);
                 data = new TeamData();
-                this.DataContext = data;
+                DataContext = data;
                 ClearAllFields(null, null);
             }
         }

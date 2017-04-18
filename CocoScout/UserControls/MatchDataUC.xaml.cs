@@ -50,12 +50,22 @@ namespace CocoScout.UserControls
             Console.WriteLine(data);
             if (String.IsNullOrEmpty(StaticDataViewModel.DataList.Settings.UserName))
             {
-                DataHandler.ShowErrorAsync("Add Data to List", "Username field in settings is empty. Please enter your username.");
+                DataHandler.ShowErrorAsync("Add Data to List", "Username field in settings is empty. Please enter your username in the settings.");
                 return;
             }
             else if (String.IsNullOrEmpty(StaticDataViewModel.DataList.Settings.Event))
             {
-                DataHandler.ShowErrorAsync("Add Data to List", "Event field in settings is empty. Please select an event.");
+                DataHandler.ShowErrorAsync("Add Data to List", "Event field in settings is empty. Please select an event in the settings.");
+                return;
+            }
+            else if (data.TeamNumber == 0)
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Team Number is zero. Please set the team number in the data screen.");
+                return;
+            }
+            else if (data.MatchNumber == 0)
+            {
+                DataHandler.ShowErrorAsync("Add Data to List", "Natch Number is zero. Please set the match number in the data screen.");
                 return;
             }
             data.User = StaticDataViewModel.DataList.Settings.UserName;

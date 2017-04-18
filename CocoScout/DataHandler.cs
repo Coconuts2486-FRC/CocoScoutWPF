@@ -64,7 +64,14 @@ namespace CocoScout
 
         public static void LoadSettings()
         {
-            StaticDataViewModel.DataList.Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\settings.txt")) ?? new Settings();
+            try
+            {
+                StaticDataViewModel.DataList.Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\CocoScout\\settings.txt")) ?? new Settings();
+            }
+            catch (FileNotFoundException)
+            {
+                StaticDataViewModel.DataList.Settings = new Settings();
+            }
         }
 
         public static void OnExitHandler()

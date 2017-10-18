@@ -34,7 +34,11 @@ namespace CocoScout.UserControls
 
         private void RegionalSelected(object sender, SelectionChangedEventArgs e)
         {
-            StaticDataViewModel.DataList.Settings.Event = ((ComboBoxItem)RegionalComboBox.SelectedItem).Content.ToString();
+            try
+            {
+                StaticDataViewModel.DataList.Settings.Event = ((ComboBoxItem)RegionalComboBox.SelectedItem).Content.ToString();
+            }
+            catch(Exception) { }
         }
 
         public void UpdateRegional()

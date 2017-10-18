@@ -286,7 +286,7 @@ namespace CocoScout
                 string path = dlg.FileName;
                 string data = File.ReadAllText(path);
                 StaticDataViewModel.DataList = JsonConvert.DeserializeObject<StaticData>(data);
-                LoadSettings();
+                // LoadSettings();
             }
         }
 

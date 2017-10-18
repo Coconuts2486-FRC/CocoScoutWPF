@@ -8,7 +8,7 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              Loaded="UserControl_Loaded"
-             d:DesignHeight="300" d:DesignWidth="502">
+             d:DesignHeight="300" d:DesignWidth="550">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -18,10 +18,10 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100px"/>
-            <ColumnDefinition Width="150px"/>
-            <ColumnDefinition Width="100px"/>
-            <ColumnDefinition Width="150px"/>
+            <ColumnDefinition Width="112.5px"/>
+            <ColumnDefinition Width="162.5px"/>
+            <ColumnDefinition Width="112.5px"/>
+            <ColumnDefinition Width="162.5px"/>
         </Grid.ColumnDefinitions>
 
         <!-- User name -->
@@ -63,6 +63,9 @@
             </ComboBoxItem>
             <ComboBoxItem>
                 World Champs
+            </ComboBoxItem>
+            <ComboBoxItem>
+                State Champs
             </ComboBoxItem>
         </ComboBox>
         

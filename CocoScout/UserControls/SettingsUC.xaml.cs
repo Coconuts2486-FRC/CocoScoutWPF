@@ -63,9 +63,38 @@ namespace CocoScout.UserControls
             DataHandler.SaveLocal();
         }
 
-        private void LoadLocallyClick(object sender, RoutedEventArgs e)
+        private async void LoadLocallyClick(object sender, RoutedEventArgs e)
         {
-            DataHandler.LoadLocal();
+            if (StaticDataViewModel.DataList.MatchDataList.Any())
+            {
+                MetroWindow window = Window.GetWindow(this) as MetroWindow;
+                if(window != null)
+                {
+                    var result = await window.ShowMessageAsync("Warning", "Data is currently present in the model. Proceed?",
+                        MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = "Append",
+                            FirstAuxiliaryButtonText = "Override",
+                            NegativeButtonText = "Cancel",
+                            AnimateShow = true
+                        });
+
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        DataHandler.LoadAppendLocal();
+                    }
+                    else if(result == MessageDialogResult.FirstAuxiliary)
+                    {
+                        DataHandler.LoadLocal();
+                    }
+                    else if (result == MessageDialogResult.Negative) { }
+                }
+            }
+            else
+            {
+                DataHandler.LoadLocal();
+            }
+
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

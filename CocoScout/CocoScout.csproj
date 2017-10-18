@@ -28,8 +28,8 @@
     <SupportUrl>http://team2486.org/contact-us</SupportUrl>
     <ProductName>CocoScout</ProductName>
     <PublisherName>CocoNuts</PublisherName>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Closing="OnExit"
-        Title="" Height="374" Width="502" ResizeMode="NoResize">
+        Title="" Height="374" Width="550" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <!--<RowDefinition Height="50px" />-->

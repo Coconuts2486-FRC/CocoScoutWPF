@@ -48,6 +48,7 @@ namespace CocoScout
             }
             else
             {
+                File.WriteAllText(rootDirectory + "\\regionals.txt", "Arizona North\nLos Angeles\nIdaho\nWorld Champs\nState Champs");
                 Console.WriteLine("Could not find regional data.");
             }
         }
@@ -86,8 +87,8 @@ namespace CocoScout
                 // This is where the secret key is stored.
                 var options = new CredentialProfileOptions
                 {
-                    AccessKey = "",
-                    SecretKey = ""
+                    AccessKey = "AKIAI7RKR52M4BUPUREQ",
+                    SecretKey = "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"
                 };
 
                 var profile = new CredentialProfile("scouting_db", options);
@@ -286,6 +287,30 @@ namespace CocoScout
                 string data = File.ReadAllText(path);
                 StaticDataViewModel.DataList = JsonConvert.DeserializeObject<StaticData>(data);
                 LoadSettings();
+            }
+        }
+
+        public static void LoadAppendLocal()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+
+            dlg.DefaultExt = ".scout";
+            dlg.Filter = "Scouting Files (.scout)|*.scout";
+
+            bool? result = dlg.ShowDialog();
+            if (result == true)
+            {
+                string path = dlg.FileName;
+                string data = File.ReadAllText(path);
+                StaticData list = JsonConvert.DeserializeObject<StaticData>(data);
+                foreach(TeamData s in list.TeamDataList)
+                {
+                    StaticDataViewModel.DataList.TeamDataList.Add(s);
+                }
+                foreach(MatchData s in list.MatchDataList)
+                {
+                    StaticDataViewModel.DataList.MatchDataList.Add(s);
+                }
             }
         }
 
